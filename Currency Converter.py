@@ -11,10 +11,8 @@ def convert_currency(amount, base_currency, target_currency):
         url = f"{base_url}{api_key}/latest/{base_currency}"
         response = requests.get(url)
         data = response.json()
-
         # currency rates
         rates = data["conversion_rates"]
-
         # convert from base to target
         target_amount = amount * rates[target_currency]
 
@@ -31,31 +29,21 @@ def get_currency_codes():
     codes = {code[0]: code[1] for code in data["supported_codes"]}
     return codes
 
-# def search(event):
-#     currency_codes = get_currency_codes()
-#     input = event.widget.get()
-#     if input == "":
-#         currency_dropdown["values"] = get_currency_codes()
-#     else:
-#         data = []
-#
-#         for item in currency_codes:
-#             if input.lower() in item.lower():
-#                 data.append(item)
-#         currency_dropdown["values"] = data
+def select(event):
+    chosen_code = currency_dropdown.get()
+    currency_name = codes_dict.get(chosen_code, "")
+    from_currency_label.set(f"1 {chosen_code} - {currency_name}")
 
 def search(event):
-    input_curr = event.widget.get()
+    input_curr = event.widget.get().lower()
     data = []
-    for code, name in codes_dict.keys():
-        if input_curr in code.lower() or input_curr in code.lower() in name.lower():
+    for code, name in codes_dict.items():
+        if input_curr in code.lower() or input_curr in name.lower():
             data.append(code)
-
     if data:
         currency_dropdown["values"] = data
     else:
         currency_dropdown["values"] = list(codes_dict.keys())
-
 
 # GUI
 root = tk.Tk() # main window
@@ -82,14 +70,11 @@ label.grid(row = 0, column = 0, columnspan = 3, padx=0)
 # dropdown for chosen currency to convert from
 codes_dict = get_currency_codes()
 choices = list(codes_dict.keys())
-currency_dropdown = ttk.Combobox(root, textvariable=from_currency_label, values=choices, width=15)
+currency_dropdown = ttk.Combobox(root, textvariable=from_currency, values=choices, width=15)
 currency_dropdown.grid(row=1, column=3, padx=3, pady=3)
 
+currency_dropdown.bind("<<ComboboxSelected>>", select)
 currency_dropdown.bind("<KeyRelease>", search)
-
-
-
-
 
 
 

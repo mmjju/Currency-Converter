@@ -29,6 +29,16 @@ def get_currency_codes():
     codes = {code[0]: code[1] for code in data["supported_codes"]}
     return codes
 
+# GUI
+root = tk.Tk() # main window
+root.geometry("600x200")
+root.resizable(False, False)
+root.title("Currency Converter")
+
+from_currency = tk.StringVar()
+to_currency = tk.StringVar()
+
+# gui functions
 def select(event):
     chosen_code = currency_dropdown.get()
     currency_name = codes_dict.get(chosen_code, "")
@@ -44,15 +54,6 @@ def search(event):
         currency_dropdown["values"] = data
     else:
         currency_dropdown["values"] = list(codes_dict.keys())
-
-# GUI
-root = tk.Tk() # main window
-root.geometry("600x250")
-root.resizable(False, False)
-root.title("Currency Converter")
-
-from_currency = tk.StringVar()
-to_currency = tk.StringVar()
 
 # text label
 amount_label = tk.Label(root, text = "Amount", font=("Calibri", 14))
@@ -77,11 +78,4 @@ currency_dropdown.bind("<<ComboboxSelected>>", select)
 currency_dropdown.bind("<KeyRelease>", search)
 
 
-
 root.mainloop()
-
-
-
-
-
-

@@ -6,6 +6,12 @@ api_key = "18aee9556e2cfe999af9ce70"
 base_url = "https://v6.exchangerate-api.com/v6/"
 # url = "https://v6.exchangerate-api.com/v6/18aee9556e2cfe999af9ce70/latest/PHP"
 
+def get_rates(base_currency):
+    url = f"{base_url}{api_key}/latest/{base_currency}"
+    response = requests.get(url)
+    data = response.json()
+    return data["conversion_rates"]
+
 def convert_currency(amount, base_currency, target_currency):
     try:
         url = f"{base_url}{api_key}/latest/{base_currency}"

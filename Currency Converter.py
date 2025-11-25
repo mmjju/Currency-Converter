@@ -1,4 +1,6 @@
 import requests
+import tkinter as tk
+from tkinter import ttk, messagebox
 
 api_key = "18aee9556e2cfe999af9ce70"
 base_url = "https://v6.exchangerate-api.com/v6/"
@@ -16,15 +18,23 @@ def convert_currency(amount, base_currency, target_currency):
         # convert from base to target
         target_amount = amount * rates[target_currency]
 
-        return target_amount
+        return round(target_amount, 2)
 
     except KeyError:
         return -1
 
-print(convert_currency(1, "PHP", "USD"))
-print(convert_currency(100000, "KRW", "PHP"))
+
+# GUI
+root = tk.Tk() # main window
+root.geometry("400x450")
+root.resizable(False, False)
+root.title("Currency Converter")
+
+label = tk.Label(root, text = "Currency Converter")
+label.pack()
 
 
+root.mainloop()
 
 
 

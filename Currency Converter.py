@@ -23,17 +23,30 @@ def convert_currency(amount, base_currency, target_currency):
     except KeyError:
         return -1
 
+def get_currency(base_currency):
+    url = f"{base_url}{api_key}/latest/{base_currency}"
+    response = requests.get(url)
+    data = response.json()
 
+    return list(data["conversion_rates"].keys())
 # GUI
 root = tk.Tk() # main window
 root.geometry("400x450")
 root.resizable(False, False)
 root.title("Currency Converter")
 
-label = tk.Label(root, text = "Currency Converter")
-label.pack()
+label = tk.Label(root, text = "Currency Converter", font=("Calibri", 15))
+label.grid(row = 0, column = 0, columnspan = 2, padx=0)
 
+amount_label = tk.Label(root, text = "Amount", font=("Calibri", 14))
+amount_label.grid(row=1, column=0, padx=5, pady=5)
 
+amount_entry = tk.Entry(root, width=15)
+amount_entry.grid(row=1, column=1, padx=0, pady=5)
+
+choices = get_currency(base_currency="USD")
+currency_dropdown = ttk.Combobox(root, values=choices, width=15)
+currency_dropdown.grid(row=1, column=3, padx=3, pady=3)
 root.mainloop()
 
 

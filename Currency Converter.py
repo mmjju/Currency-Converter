@@ -43,6 +43,7 @@ root.title("Currency Converter")
 
 from_currency = tk.StringVar()
 to_currency = tk.StringVar()
+output_label = tk.StringVar()
 
 # gui functions
 def select(event):
@@ -64,6 +65,9 @@ def search(event):
 # text label
 amount_label = tk.Label(root, text = "Amount", font=("Calibri", 14))
 amount_label.grid(row=1, column=0, padx=5, pady=5)
+
+result_label = tk.Label(root, textvariable=output_label, font=("Calibri", 20))
+result_label.grid(row=4, column=0, columnspan=5, pady=5, sticky="n")
 
 # input box
 amount_entry = tk.Entry(root, width=15)

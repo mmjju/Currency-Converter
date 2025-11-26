@@ -118,12 +118,15 @@ choices = list(codes_dict.keys())
 currency_dropdown = ttk.Combobox(root, textvariable=from_currency, values=choices, width=15)
 currency_dropdown.grid(row=1, column=3, padx=3, pady=3)
 
-currency_dropdown.bind("<<ComboboxSelected>>", select)
 currency_dropdown.bind("<KeyRelease>", search)
 
 # drop down for target currency
 target_dropdown = ttk.Combobox(root, textvariable=to_currency, values=choices, width=15)
 target_dropdown.grid(row=1, column=4, padx=3, pady=3)
+
+target_dropdown.bind("<<ComboboxSelected>>", target_select)
+target_dropdown.bind("<KeyRelease>", search)
+
 
 
 root.mainloop()

@@ -81,6 +81,8 @@ amount_entry.grid(row=1, column=1, padx=0, pady=5)
 
 # chosen currency heading(?)
 from_currency_label = tk.StringVar()
+from_label = tk.Label(root, textvariable=from_currency_label, font=("Calibri", 15))
+from_label.grid(row = 0, column = 0, columnspan = 5, pady = 10, sticky="n")
 
 label = tk.Label(root, textvariable=from_currency_label, font=("Calibri", 15))
 label.grid(row = 0, column = 0, columnspan = 3, padx=0)

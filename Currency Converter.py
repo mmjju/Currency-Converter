@@ -88,4 +88,8 @@ currency_dropdown.bind("<<ComboboxSelected>>", select)
 currency_dropdown.bind("<KeyRelease>", search)
 
 
+# conversion button
+convert_button = tk.Button(root, text="Convert", command=execute_conversion, width=10)
+convert_button.grid(row=3, column=3, padx=5, pady=5)
+
 root.mainloop()

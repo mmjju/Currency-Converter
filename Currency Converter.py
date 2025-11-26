@@ -61,15 +61,14 @@ def search(event):
         currency_dropdown["values"] = data
     else:
         currency_dropdown["values"] = list(codes_dict.keys())
+
 def execute_conversion():
    try:
        amount = float(amount_entry.get())
        base = from_currency.get()
        target = to_currency.get()
 
-
        output = convert_currency(amount, base, target)
-
 
        if output == -1:
            output_label.set("")

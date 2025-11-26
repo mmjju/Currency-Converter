@@ -61,6 +61,22 @@ def search(event):
         currency_dropdown["values"] = data
     else:
         currency_dropdown["values"] = list(codes_dict.keys())
+def execute_conversion():
+   try:
+       amount = float(amount_entry.get())
+       base = from_currency.get()
+       target = to_currency.get()
+
+
+       output = convert_currency(amount, base, target)
+
+
+       if output == -1:
+           output_label.set("")
+       else:
+           output_label.set(f"{amount} {base} = {output} {target}")
+   except ValueError:
+       output_label.set("")
 
 # text label
 amount_label = tk.Label(root, text = "Amount", font=("Calibri", 14))
@@ -75,6 +91,13 @@ amount_entry.grid(row=1, column=1, padx=0, pady=5)
 
 # chosen currency heading(?)
 from_currency_label = tk.StringVar()
+from_label = tk.Label(root, textvariable=from_currency_label, font=("Calibri", 15))
+from_label.grid(row = 0, column = 0, columnspan = 5, pady = 10, sticky="n")
+
+to_currency_label = tk.StringVar()
+to_label = tk.Label(root, textvariable=to_currency_label, font=("Calibri", 15))
+to_label.grid(row = 0, column = 2, columnspan = 3, padx=0)
+
 label = tk.Label(root, textvariable=from_currency_label, font=("Calibri", 15))
 label.grid(row = 0, column = 0, columnspan = 3, padx=0)
 

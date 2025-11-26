@@ -56,10 +56,6 @@ def target_select(event):
    from_currency_label.set(f"1 {base_code} - {currency_name} = {rate} {chosen_code}")
 
 # gui functions
-# def select(event):
-#     chosen_code = currency_dropdown.get()
-#     currency_name = codes_dict.get(chosen_code, "")
-#     from_currency_label.set(f"1 {chosen_code} - {currency_name}")
 
 def search(event):
     input_curr = event.widget.get().lower()
@@ -102,7 +98,6 @@ amount_entry.grid(row=1, column=1, padx=0, pady=5)
 from_currency_label = tk.StringVar()
 from_label = tk.Label(root, textvariable=from_currency_label, font=("Calibri", 15))
 from_label.grid(row = 0, column = 0, columnspan = 5, pady = 10, sticky="n")
-
 
 # dropdown for chosen currency to convert from
 codes_dict = get_currency_codes()

@@ -45,6 +45,18 @@ from_currency = tk.StringVar()
 to_currency = tk.StringVar()
 output_label = tk.StringVar()
 
+def target_select(event):
+   base_code = from_currency.get()
+   chosen_code = target_dropdown.get()
+   currency_name = codes_dict.get(base_code, "")
+   rates = get_rates(base_code)
+
+
+   rate = rates.get(chosen_code, "N/A")
+
+
+   from_currency_label.set(f"1 {base_code} - {currency_name} = {rate} {chosen_code}")
+
 # gui functions
 def select(event):
     chosen_code = currency_dropdown.get()
@@ -108,6 +120,10 @@ currency_dropdown.grid(row=1, column=3, padx=3, pady=3)
 
 currency_dropdown.bind("<<ComboboxSelected>>", select)
 currency_dropdown.bind("<KeyRelease>", search)
+
+# drop down for target currency
+target_dropdown = ttk.Combobox(root, textvariable=to_currency, values=choices, width=15)
+target_dropdown.grid(row=1, column=4, padx=3, pady=3)
 
 
 root.mainloop()

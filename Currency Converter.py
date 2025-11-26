@@ -37,7 +37,7 @@ def get_currency_codes():
 
 # GUI
 root = tk.Tk() # main window
-root.geometry("600x200")
+root.geometry("560x200")
 root.resizable(False, False)
 root.title("Currency Converter")
 
@@ -51,17 +51,15 @@ def target_select(event):
    currency_name = codes_dict.get(base_code, "")
    rates = get_rates(base_code)
 
-
    rate = rates.get(chosen_code, "N/A")
-
 
    from_currency_label.set(f"1 {base_code} - {currency_name} = {rate} {chosen_code}")
 
 # gui functions
-def select(event):
-    chosen_code = currency_dropdown.get()
-    currency_name = codes_dict.get(chosen_code, "")
-    from_currency_label.set(f"1 {chosen_code} - {currency_name}")
+# def select(event):
+#     chosen_code = currency_dropdown.get()
+#     currency_name = codes_dict.get(chosen_code, "")
+#     from_currency_label.set(f"1 {chosen_code} - {currency_name}")
 
 def search(event):
     input_curr = event.widget.get().lower()
@@ -70,9 +68,9 @@ def search(event):
         if input_curr in code.lower() or input_curr in name.lower():
             data.append(code)
     if data:
-        currency_dropdown["values"] = data
+        event.widget["values"] = data
     else:
-        currency_dropdown["values"] = list(codes_dict.keys())
+        event.widget["values"] = list(codes_dict.keys())
 
 def execute_conversion():
    try:
@@ -105,12 +103,6 @@ from_currency_label = tk.StringVar()
 from_label = tk.Label(root, textvariable=from_currency_label, font=("Calibri", 15))
 from_label.grid(row = 0, column = 0, columnspan = 5, pady = 10, sticky="n")
 
-to_currency_label = tk.StringVar()
-to_label = tk.Label(root, textvariable=to_currency_label, font=("Calibri", 15))
-to_label.grid(row = 0, column = 2, columnspan = 3, padx=0)
-
-label = tk.Label(root, textvariable=from_currency_label, font=("Calibri", 15))
-label.grid(row = 0, column = 0, columnspan = 3, padx=0)
 
 # dropdown for chosen currency to convert from
 codes_dict = get_currency_codes()
@@ -126,7 +118,5 @@ target_dropdown.grid(row=1, column=4, padx=3, pady=3)
 
 target_dropdown.bind("<<ComboboxSelected>>", target_select)
 target_dropdown.bind("<KeyRelease>", search)
-
-
 
 root.mainloop()

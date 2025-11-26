@@ -37,7 +37,7 @@ def get_currency_codes():
 
 # GUI
 root = tk.Tk() # main window
-root.geometry("600x200")
+root.geometry("560x200")
 root.resizable(False, False)
 root.title("Currency Converter")
 
@@ -45,11 +45,21 @@ from_currency = tk.StringVar()
 to_currency = tk.StringVar()
 output_label = tk.StringVar()
 
+def target_select(event):
+   base_code = from_currency.get()
+   chosen_code = target_dropdown.get()
+   currency_name = codes_dict.get(base_code, "")
+   rates = get_rates(base_code)
+
+   rate = rates.get(chosen_code, "N/A")
+
+   from_currency_label.set(f"1 {base_code} - {currency_name} = {rate} {chosen_code}")
+
 # gui functions
-def select(event):
-    chosen_code = currency_dropdown.get()
-    currency_name = codes_dict.get(chosen_code, "")
-    from_currency_label.set(f"1 {chosen_code} - {currency_name}")
+# def select(event):
+#     chosen_code = currency_dropdown.get()
+#     currency_name = codes_dict.get(chosen_code, "")
+#     from_currency_label.set(f"1 {chosen_code} - {currency_name}")
 
 def search(event):
     input_curr = event.widget.get().lower()
@@ -58,9 +68,24 @@ def search(event):
         if input_curr in code.lower() or input_curr in name.lower():
             data.append(code)
     if data:
-        currency_dropdown["values"] = data
+        event.widget["values"] = data
     else:
-        currency_dropdown["values"] = list(codes_dict.keys())
+        event.widget["values"] = list(codes_dict.keys())
+
+def execute_conversion():
+   try:
+       amount = float(amount_entry.get())
+       base = from_currency.get()
+       target = to_currency.get()
+
+       output = convert_currency(amount, base, target)
+
+       if output == -1:
+           output_label.set("")
+       else:
+           output_label.set(f"{amount} {base} = {output} {target}")
+   except ValueError:
+       output_label.set("")
 
 # text label
 amount_label = tk.Label(root, text = "Amount", font=("Calibri", 14))
@@ -75,8 +100,9 @@ amount_entry.grid(row=1, column=1, padx=0, pady=5)
 
 # chosen currency heading(?)
 from_currency_label = tk.StringVar()
-label = tk.Label(root, textvariable=from_currency_label, font=("Calibri", 15))
-label.grid(row = 0, column = 0, columnspan = 3, padx=0)
+from_label = tk.Label(root, textvariable=from_currency_label, font=("Calibri", 15))
+from_label.grid(row = 0, column = 0, columnspan = 5, pady = 10, sticky="n")
+
 
 # dropdown for chosen currency to convert from
 codes_dict = get_currency_codes()
@@ -84,9 +110,14 @@ choices = list(codes_dict.keys())
 currency_dropdown = ttk.Combobox(root, textvariable=from_currency, values=choices, width=15)
 currency_dropdown.grid(row=1, column=3, padx=3, pady=3)
 
-currency_dropdown.bind("<<ComboboxSelected>>", select)
 currency_dropdown.bind("<KeyRelease>", search)
 
+# drop down for target currency
+target_dropdown = ttk.Combobox(root, textvariable=to_currency, values=choices, width=15)
+target_dropdown.grid(row=1, column=4, padx=3, pady=3)
+
+target_dropdown.bind("<<ComboboxSelected>>", target_select)
+target_dropdown.bind("<KeyRelease>", search)
 
 # conversion button
 convert_button = tk.Button(root, text="Convert", command=execute_conversion, width=10)

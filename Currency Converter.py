@@ -66,6 +66,9 @@ def search(event):
 amount_label = tk.Label(root, text = "Amount", font=("Calibri", 14))
 amount_label.grid(row=1, column=0, padx=5, pady=5)
 
+result_label = tk.Label(root, textvariable=output_label, font=("Calibri", 20))
+result_label.grid(row=4, column=0, columnspan=5, pady=5, sticky="n")
+
 # input box
 amount_entry = tk.Entry(root, width=15)
 amount_entry.grid(row=1, column=1, padx=0, pady=5)

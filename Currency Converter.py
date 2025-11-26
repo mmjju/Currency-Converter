@@ -43,6 +43,7 @@ root.title("Currency Converter")
 
 from_currency = tk.StringVar()
 to_currency = tk.StringVar()
+output_label = tk.StringVar()
 
 # gui functions
 def select(event):

@@ -84,6 +84,10 @@ from_currency_label = tk.StringVar()
 from_label = tk.Label(root, textvariable=from_currency_label, font=("Calibri", 15))
 from_label.grid(row = 0, column = 0, columnspan = 5, pady = 10, sticky="n")
 
+to_currency_label = tk.StringVar()
+to_label = tk.Label(root, textvariable=to_currency_label, font=("Calibri", 15))
+to_label.grid(row = 0, column = 2, columnspan = 3, padx=0)
+
 label = tk.Label(root, textvariable=from_currency_label, font=("Calibri", 15))
 label.grid(row = 0, column = 0, columnspan = 3, padx=0)
 

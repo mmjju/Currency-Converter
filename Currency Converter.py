@@ -17,6 +17,7 @@ def convert_currency(amount, base_currency, target_currency):
         url = f"{base_url}{api_key}/latest/{base_currency}"
         response = requests.get(url)
         data = response.json()
+
         # currency rates
         rates = data["conversion_rates"]
         # convert from base to target
@@ -81,7 +82,7 @@ def execute_conversion():
        else:
            output_label.set(f"{amount} {base} = {output} {target}")
    except ValueError:
-       output_label.set("")
+       messagebox.showwarning("Invalid amount", "Please enter a valid numeric value.")
 
 # text label
 amount_label = tk.Label(root, text = "Amount", font=("Calibri", 14))

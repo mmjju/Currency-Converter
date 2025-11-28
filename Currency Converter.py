@@ -14,12 +14,8 @@ def get_rates(base_currency):
 
 def convert_currency(amount, base_currency, target_currency):
     try:
-        url = f"{base_url}{api_key}/latest/{base_currency}"
-        response = requests.get(url)
-        data = response.json()
-
         # currency rates
-        rates = data["conversion_rates"]
+        rates = get_rates(base_currency)
         # convert from base to target
         target_amount = amount * rates[target_currency]
 
@@ -48,12 +44,16 @@ output_label = tk.StringVar()
 
 def target_select(event):
    base_code = from_currency.get()
-   chosen_code = target_dropdown.get()
-   currency_name = codes_dict.get(base_code, "")
+   chosen_code = to_currency.get()
+
+   try:
+        currency_name = codes_dict[base_code]
+   except KeyError:
+        messagebox.showwarning("Invalid currency", "Please enter a valid currency code.")
+        return
+
    rates = get_rates(base_code)
-
-   rate = rates.get(chosen_code, "N/A")
-
+   rate = rates.get(chosen_code, "")
    from_currency_label.set(f"1 {base_code} - {currency_name} = {rate} {chosen_code}")
 
 # gui functions
@@ -75,12 +75,16 @@ def execute_conversion():
        base = from_currency.get()
        target = to_currency.get()
 
-       output = convert_currency(amount, base, target)
+       if not target or not base:
+           messagebox.showwarning("Invalid currency", "Please select a currency code.")
+           return
+       elif amount < 0:
+           messagebox.showwarning("Invalid amount", "Amount cannot be negative.")
+           return
 
-       if output == -1:
-           output_label.set("")
-       else:
-           output_label.set(f"{amount} {base} = {output} {target}")
+       output = convert_currency(amount, base, target)
+       output_label.set(f"{amount} {base} = {output} {target}")
+
    except ValueError:
        messagebox.showwarning("Invalid amount", "Please enter a valid numeric value.")
 
